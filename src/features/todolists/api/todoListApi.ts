@@ -1,4 +1,4 @@
-import { AppResponseType, axiosInstance } from '@/features'
+import { AppResponseType, axiosInstance } from '@/common'
 import { AxiosResponse } from 'axios'
 
 export class TodoListApi {
@@ -22,7 +22,7 @@ export class TodoListApi {
   }
 }
 
-type TodoListServerType = {
+export type TodoListServerType = {
   addedDate: Date
   id: string
   order: number
