@@ -13,10 +13,9 @@ export class TodoListApi {
     return axiosInstance.delete<AppResponseType, AxiosResponse<AppResponseType>, string>(todolistId)
   }
   static getTodoLists() {
-    return axiosInstance.get<
-      AppResponseType<TodoListServerType[]>,
-      AxiosResponse<TodoListServerType[]>
-    >('todo-lists')
+    return axiosInstance.get<TodoListServerType[], AxiosResponse<TodoListServerType[]>>(
+      'todo-lists'
+    )
   }
   static updateTodoListTitle({ title, todolistId }: UpdateTodoListTitleRequestType) {
     return axiosInstance.put(`todo-lists/${todolistId}`, { title })
