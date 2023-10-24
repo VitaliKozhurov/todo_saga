@@ -1,24 +1,30 @@
-import { AppResponseType, axiosInstance } from '@/features'
+import { AppResponseType, axiosInstance } from '@/common'
 import { AxiosResponse } from 'axios'
 
 export class TaskApi {
-  static createTask({ title, todolistId }: CreateTaskType) {
+  static createTask({ title, todolistId }: CreateTaskArgsType) {
     return axiosInstance.post<
       AppResponseType<TaskApiType>,
       AxiosResponse<AppResponseType<TaskApiType>>,
-      Omit<CreateTaskType, 'todolistId'>
+      { title: string }
     >(`todo-lists/${todolistId}/tasks`, { title })
+  }
+  static deleteTask({ taskId, todolistId }: DeleteTaskArgsType) {
+    return axiosInstance.delete<AppResponseType, AxiosResponse<AppResponseType>>(
+      `todo-lists/${todolistId}/tasks/${taskId}`
+    )
   }
   static getTasks(todolistId: string) {
     return axiosInstance.get<TasksResponseType, AxiosResponse<TasksResponseType>, string>(
       `todo-lists/${todolistId}/tasks`
     )
   }
-  static updateTask({ taskId: string, taskUpdate: TaskUpdateType, todolistId: string }) {
+  static updateTask({ taskId, taskUpdate, todolistId }: UpdateTaskArgsType) {
     return axiosInstance.put<
       AppResponseType<TaskApiType>,
-      AxiosResponse<AppResponseType<TaskApiType>>
-    >(`todo-lists/${todolistId}/tasks`, taskUpdate)
+      AxiosResponse<AppResponseType<TaskApiType>>,
+      TaskUpdateType
+    >(`todo-lists/${todolistId}/tasks/${taskId}`, taskUpdate)
   }
 }
 
@@ -41,10 +47,16 @@ type TaskApiType = {
   title: string
   todoListId: string
 }
+type UpdateTaskArgsType = {
+  taskId: string
+  taskUpdate: TaskUpdateType
+  todolistId: string
+}
 
 type TaskUpdateType = Pick<
   TaskApiType,
   'completed' | 'deadline' | 'description' | 'priority' | 'startDate' | 'status' | 'title'
 >
 
-type CreateTaskType = { title: string; todolistId: string }
+type CreateTaskArgsType = { title: string; todolistId: string }
+type DeleteTaskArgsType = { taskId: string; todolistId: string }
