@@ -36,7 +36,6 @@ type TasksResponseType = {
 
 export type TaskApiType = {
   addedDate: Date
-  completed: boolean
   deadline: Date
   description: string
   id: string
@@ -53,9 +52,9 @@ type UpdateTaskArgsType = {
   todolistId: string
 }
 
-type TaskUpdateType = Pick<
+export type TaskUpdateType = Pick<
   TaskApiType,
-  'completed' | 'deadline' | 'description' | 'priority' | 'startDate' | 'status' | 'title'
+  'deadline' | 'description' | 'priority' | 'startDate' | 'status' | 'title'
 >
 
 type CreateTaskArgsType = { title: string; todolistId: string }
