@@ -34,7 +34,7 @@ type TasksResponseType = {
   totalCount: number
 }
 
-type TaskApiType = {
+export type TaskApiType = {
   addedDate: Date
   completed: boolean
   deadline: Date
