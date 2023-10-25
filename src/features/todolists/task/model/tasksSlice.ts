@@ -1,3 +1,4 @@
+import { TodoListServerType } from '@/features'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 import { TaskApiType, TaskUpdateType } from '../api/taskApi'
@@ -13,15 +14,31 @@ const initialState = {} as InitialState
 
 const tasksSlice = createSlice({
   extraReducers: builder => {
-    builder.addMatcher(
-      action => {
-        return action.type.endsWith('todoLists/fetchTodos')
-      },
-      (state, action) => {
-        console.log(state)
-        console.log(action)
-      }
-    )
+    builder
+      .addMatcher<PayloadAction<TodoListServerType[]>>(
+        action => {
+          return action.type.endsWith('todoLists/fetchTodos')
+        },
+        (state, action) => {
+          action.payload.map(todo => (state[todo.id] = []))
+        }
+      )
+      .addMatcher<PayloadAction<TodoListServerType>>(
+        action => {
+          return action.type.endsWith('todoLists/createTodo')
+        },
+        (state, action) => {
+          state[action.payload.id] = []
+        }
+      )
+      .addMatcher<PayloadAction<string>>(
+        action => {
+          return action.type.endsWith('todoLists/deleteTodo')
+        },
+        (state, action) => {
+          delete state[action.payload]
+        }
+      )
   },
   initialState: initialState,
   name: 'tasks',
