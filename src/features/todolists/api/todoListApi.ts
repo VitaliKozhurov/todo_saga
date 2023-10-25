@@ -10,7 +10,9 @@ export class TodoListApi {
     >('todo-lists', body)
   }
   static deleteTodoList(todolistId: string) {
-    return axiosInstance.delete<AppResponseType, AxiosResponse<AppResponseType>, string>(todolistId)
+    return axiosInstance.delete<AppResponseType, AxiosResponse<AppResponseType>, string>(
+      `todo-lists/${todolistId}`
+    )
   }
   static getTodoLists() {
     return axiosInstance.get<TodoListServerType[], AxiosResponse<TodoListServerType[]>>(

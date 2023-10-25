@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { fetchTodosSagaAC, todoListsSelector, useAppDispatch, useAppSelector } from '@/features'
+import { TodoList } from '@features/todolists/ui'
 
 export const App = () => {
   const dispatch = useAppDispatch()
@@ -13,7 +14,7 @@ export const App = () => {
   return (
     <>
       {todos.map(todo => (
-        <h2 key={todo.id}>{todo.title}</h2>
+        <TodoList key={todo.id} title={todo.title} todolistId={todo.id} />
       ))}
     </>
   )
