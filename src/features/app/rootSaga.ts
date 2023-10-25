@@ -1,5 +1,5 @@
-import { todoListsSagaWatcher } from '@/features'
+import { tasksSagaWatcher, todoListsSagaWatcher } from '@/features'
 import { all } from 'redux-saga/effects'
 export function* rootSaga() {
-  yield all([todoListsSagaWatcher()])
+  yield all([todoListsSagaWatcher(), tasksSagaWatcher()])
 }

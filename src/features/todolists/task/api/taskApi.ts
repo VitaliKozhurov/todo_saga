@@ -28,7 +28,7 @@ export class TaskApi {
   }
 }
 
-type TasksResponseType = {
+export type TasksResponseType = {
   error: null | string
   items: TaskApiType[]
   totalCount: number
