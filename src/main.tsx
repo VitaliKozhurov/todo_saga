@@ -1,11 +1,13 @@
+import { Provider } from 'react-redux'
+
 import { App } from '@/App'
-import { ChakraProvider } from '@chakra-ui/react'
+import { store } from '@/features'
 import { createRoot } from 'react-dom/client'
 
 import './index.css'
 
 createRoot(document.getElementById('root')!).render(
-  <ChakraProvider>
+  <Provider store={store}>
     <App />
-  </ChakraProvider>
+  </Provider>
 )

@@ -1,11 +1,16 @@
 import { TodoListServerType } from '@/features'
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createAction, createSlice } from '@reduxjs/toolkit'
 
 type TodoListType = {
   entityStatus: 'idle' | 'loading'
   filter: FilterValueType
 } & TodoListServerType
 
+enum FilterValueType {
+  ACTIVE = 'active',
+  ALL = 'all',
+  COMPLETED = 'completed',
+}
 const initialState: TodoListType[] = []
 
 export const todoListsSlice = createSlice({
@@ -18,7 +23,7 @@ export const todoListsSlice = createSlice({
     deleteTodo: (state, action: PayloadAction<{ todolistId: string }>) => {
       return state.filter(todo => todo.id !== action.payload.todolistId)
     },
-    setTodos: (_state, action: PayloadAction<TodoListServerType[]>) => {
+    fetchTodos: (_state, action: PayloadAction<TodoListServerType[]>) => {
       return action.payload.map(todo => ({
         ...todo,
         entityStatus: 'idle',
@@ -38,8 +43,24 @@ export const todoListsSlice = createSlice({
 export const todoListReducer = todoListsSlice.reducer
 export const todoListActions = todoListsSlice.actions
 
-enum FilterValueType {
-  ACTIVE = 'active',
-  ALL = 'all',
-  COMPLETED = 'completed',
-}
+const FETCH_TODOS = 'fetchTodos'
+const CREATE_TODO = 'createTodo'
+const UPDATE_TODO = 'updateTodo'
+const DELETE_TODO = 'deleteTodo'
+
+export const fetchTodosSagaAC = () =>
+  ({
+    type: 'fetchTodos',
+  }) as const
+export const createTodoSagaAC = (payload: { title: string }) =>
+  ({
+    payload,
+    type: 'createTodo',
+  }) as const
+
+export const todoListsSagaActions = { CREATE_TODO, DELETE_TODO, FETCH_TODOS, UPDATE_TODO }
+
+export const updateTodoSagaAC = createAction(UPDATE_TODO)
+export const deleteTodoSagaAC = createAction(DELETE_TODO)
+
+export type CreateTodoType = ReturnType<typeof createTodoSagaAC>
