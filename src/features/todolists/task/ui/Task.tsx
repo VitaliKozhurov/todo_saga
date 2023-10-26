@@ -11,11 +11,13 @@ type Props = TaskApiType
 export const Task = (task: Props) => {
   const { status, title } = task
   const dispatch = useAppDispatch()
+  const removeTaskHandler = () => {
+    dispatch(rem)
+  }
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.currentTarget.checked
     const newStatus = isChecked ? TaskStatuses.Completed : TaskStatuses.New
 
-    console.log(newStatus)
     dispatch(
       updateTaskSagaAC({
         task,
@@ -23,6 +25,7 @@ export const Task = (task: Props) => {
       })
     )
   }
+
   const isChecked = status === TaskStatuses.Completed
 
   return (
@@ -39,7 +42,7 @@ export const Task = (task: Props) => {
         <div style={{ display: 'flex', gap: '5px' }}>
           <Checkbox isChecked={isChecked} onChange={changeTaskStatusHandler} size={'lg'} />
           <ModalWindow buttonText={'Edit'} modalTitle={'Edit title'} />
-          <Button>
+          <Button colorScheme={'red'} size={'lg'}>
             <DeleteIcon />
           </Button>
         </div>

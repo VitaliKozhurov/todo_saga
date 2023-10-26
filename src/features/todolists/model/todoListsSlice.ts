@@ -1,3 +1,4 @@
+import { FilterValueType } from '@/common'
 import { TodoListServerType } from '@/features'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
@@ -6,11 +7,6 @@ export type TodoListType = {
   filter: FilterValueType
 } & TodoListServerType
 
-enum FilterValueType {
-  ACTIVE = 'active',
-  ALL = 'all',
-  COMPLETED = 'completed',
-}
 const initialState: TodoListType[] = []
 
 export const todoListsSlice = createSlice({
@@ -32,11 +28,17 @@ export const todoListsSlice = createSlice({
         filter: FilterValueType.ALL,
       }))
     },
-    updateTodo: (state, action: PayloadAction<{ title: string; todolistId: string }>) => {
+    updateTodo: (
+      state,
+      action: PayloadAction<{
+        todolistId: string
+        updateData: { filter?: FilterValueType; title?: string }
+      }>
+    ) => {
       const index = state.findIndex(todo => todo.id === action.payload.todolistId)
 
       if (index !== -1) {
-        state[index].title = action.payload.title
+        state[index] = { ...state[index], ...action.payload.updateData }
       }
     },
   },
@@ -59,7 +61,7 @@ export const createTodoSagaAC = (payload: { title: string }) =>
     payload,
     type: CREATE_TODO,
   }) as const
-export const updateTodoSagaAC = (payload: { title: string; todolistId: string }) =>
+export const updateTodoSagaAC = (payload: { todolistId: string; updateData: { title: string } }) =>
   ({
     payload,
     type: UPDATE_TODO,

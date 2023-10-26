@@ -49,17 +49,16 @@ function* createTodoListSaga(action: CreateTodoType): SagaIterator {
 
 function* updateTodoListSaga(action: UpdateTodoType): SagaIterator {
   const { payload } = action
+  const data = { todolistId: payload.todolistId, ...payload.updateData }
 
   try {
     const response: AxiosResponse<AppResponseType<TaskApiType>> = yield call(
       TodoListApi.updateTodoListTitle,
-      payload
+      data
     )
 
     if (response.data.resultCode === 0) {
-      yield put(
-        todoListActions.updateTodo({ title: payload.title, todolistId: payload.todolistId })
-      )
+      yield put(todoListActions.updateTodo(payload))
     }
   } catch (e) {
     console.log(e)
