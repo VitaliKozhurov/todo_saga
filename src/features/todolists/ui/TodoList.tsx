@@ -1,6 +1,7 @@
-import { ModalWindow } from '@/components'
+import { AddItem, ModalWindow } from '@/components'
 import {
   TodoListType,
+  createTaskSagaAC,
   deleteTodoSagaAC,
   tasksSelectors,
   useAppDispatch,
@@ -23,8 +24,13 @@ type Props = TodoListType
 export const TodoList = ({ id, title }: Props) => {
   const dispatch = useAppDispatch()
   const tasks = useAppSelector(tasksSelectors(id))
+
+  console.log(tasks)
   const removeTodoList = () => {
     dispatch(deleteTodoSagaAC({ todolistId: id }))
+  }
+  const addTaskHandler = (title: string) => {
+    dispatch(createTaskSagaAC({ title, todolistId: id }))
   }
 
   return (
@@ -41,10 +47,12 @@ export const TodoList = ({ id, title }: Props) => {
         </CardHeader>
 
         <CardBody>
+          <AddItem buttonTitle={'Add task'} callback={addTaskHandler} />
           {tasks.map(task => (
             <h2 key={task.id}>{task.title}</h2>
           ))}
         </CardBody>
+
         <CardFooter>
           <ButtonGroup display={'flex'} justifyContent={'space-around'} width={'100%'}>
             <Button colorScheme={'teal'} flexBasis={'30%'} size={'lg'}>

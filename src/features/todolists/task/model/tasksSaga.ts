@@ -14,7 +14,7 @@ import { AxiosResponse } from 'axios'
 import { SagaIterator } from 'redux-saga'
 import { call, put, takeEvery } from 'redux-saga/effects'
 
-function* fetchTasksSaga(action: FetchTaskType): SagaIterator {
+export function* fetchTasksSaga(action: FetchTaskType): SagaIterator {
   const { payload } = action
 
   try {
@@ -24,7 +24,9 @@ function* fetchTasksSaga(action: FetchTaskType): SagaIterator {
     )
 
     if (!response.data.error) {
-      put(tasksActions.getTasks({ tasks: response.data.items, todolistId: payload.todolistId }))
+      yield put(
+        tasksActions.getTasks({ tasks: response.data.items, todolistId: payload.todolistId })
+      )
     }
   } catch (e) {
     console.log(e)
@@ -34,13 +36,15 @@ function* createTaskSaga(action: CreateTaskType): SagaIterator {
   const { payload } = action
 
   try {
-    const response: AxiosResponse<AppResponseType<TaskApiType>> = yield call(
+    const response: AxiosResponse<AppResponseType<{ item: TaskApiType }>> = yield call(
       TaskApi.createTask,
       payload
     )
 
     if (response.data.resultCode === 0) {
-      put(tasksActions.createTask({ task: response.data.data, todolistId: payload.todolistId }))
+      yield put(
+        tasksActions.createTask({ task: response.data.data.item, todolistId: payload.todolistId })
+      )
     }
   } catch (e) {
     console.log(e)
@@ -57,7 +61,7 @@ function* updateTaskSaga(action: UpdateTaskType): SagaIterator {
     )
 
     if (response.data.resultCode === 0) {
-      put(
+      yield put(
         tasksActions.updateTask({
           taskId: payload.taskId,
           todolistId: payload.todolistId,
@@ -76,7 +80,7 @@ function* deleteTaskSaga(action: DeleteTaskType): SagaIterator {
     const response: AxiosResponse<AppResponseType> = yield call(TaskApi.deleteTask, payload)
 
     if (response.data.resultCode === 0) {
-      put(tasksActions.deleteTask({ taskId: payload.taskId, todolistId: payload.todolistId }))
+      yield put(tasksActions.deleteTask({ taskId: payload.taskId, todolistId: payload.todolistId }))
     }
   } catch (e) {
     console.log(e)

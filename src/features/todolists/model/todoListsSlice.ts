@@ -18,7 +18,9 @@ export const todoListsSlice = createSlice({
   name: 'todoLists',
   reducers: {
     createTodo: (state, action: PayloadAction<TodoListServerType>) => {
-      state.unshift({ ...action.payload, entityStatus: 'idle', filter: FilterValueType.ALL })
+      const newTodo = action.payload
+
+      state.unshift({ ...newTodo, entityStatus: 'idle', filter: FilterValueType.ALL })
     },
     deleteTodo: (state, action: PayloadAction<string>) => {
       return state.filter(todo => todo.id !== action.payload)

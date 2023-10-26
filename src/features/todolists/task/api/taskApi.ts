@@ -4,8 +4,8 @@ import { AxiosResponse } from 'axios'
 export class TaskApi {
   static createTask({ title, todolistId }: CreateTaskArgsType) {
     return axiosInstance.post<
-      AppResponseType<TaskApiType>,
-      AxiosResponse<AppResponseType<TaskApiType>>,
+      AppResponseType<{ item: TaskApiType }>,
+      AxiosResponse<AppResponseType<{ item: TaskApiType }>>,
       { title: string }
     >(`todo-lists/${todolistId}/tasks`, { title })
   }

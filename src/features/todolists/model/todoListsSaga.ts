@@ -6,6 +6,8 @@ import {
   TodoListApi,
   TodoListServerType,
   UpdateTodoType,
+  fetchTasksSaga,
+  fetchTasksSagaAC,
   todoListActions,
   todoListsSagaActions,
 } from '@/features'
@@ -18,27 +20,33 @@ function* fetchTodoListsSaga(): SagaIterator {
     const response: AxiosResponse<TodoListServerType[]> = yield call(TodoListApi.getTodoLists)
 
     yield put(todoListActions.fetchTodos(response.data))
+
+    for (const todo of response.data) {
+      yield call(fetchTasksSaga, fetchTasksSagaAC({ todolistId: todo.id }))
+    }
   } catch (e) {
     console.log(e)
     /*yield put(getUserErrorAction(error))*/
   }
 }
+
 function* createTodoListSaga(action: CreateTodoType): SagaIterator {
   const { payload } = action
 
   try {
-    const response: AxiosResponse<AppResponseType<TodoListServerType>> = yield call(
+    const response: AxiosResponse<AppResponseType<{ item: TodoListServerType }>> = yield call(
       TodoListApi.createTodoList,
       payload
     )
 
     if (response.data.resultCode === 0) {
-      yield put(todoListActions.createTodo(response.data.data))
+      yield put(todoListActions.createTodo(response.data.data.item))
     }
   } catch (e) {
     console.log(e)
   }
 }
+
 function* updateTodoListSaga(action: UpdateTodoType): SagaIterator {
   const { payload } = action
 
@@ -57,6 +65,7 @@ function* updateTodoListSaga(action: UpdateTodoType): SagaIterator {
     console.log(e)
   }
 }
+
 function* deleteTodoListSaga(action: DeleteTodoType): SagaIterator {
   const { payload } = action
 

@@ -4,8 +4,8 @@ import { AxiosResponse } from 'axios'
 export class TodoListApi {
   static createTodoList(body: CreateTodoListRequestType) {
     return axiosInstance.post<
-      AppResponseType<TodoListServerType>,
-      AxiosResponse<AppResponseType<TodoListServerType>>,
+      AppResponseType<{ item: TodoListServerType }>,
+      AxiosResponse<AppResponseType<{ item: TodoListServerType }>>,
       CreateTodoListRequestType
     >('todo-lists', body)
   }
