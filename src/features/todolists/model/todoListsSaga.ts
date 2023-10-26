@@ -1,4 +1,4 @@
-import { AppResponseType } from '@/common'
+import { AppResponseType, getAppErrorResponse, getNetworkErrorResponse } from '@/common'
 import {
   CreateTodoType,
   DeleteTodoType,
@@ -25,8 +25,7 @@ function* fetchTodoListsSaga(): SagaIterator {
       yield call(fetchTasksSaga, fetchTasksSagaAC({ todolistId: todo.id }))
     }
   } catch (e) {
-    console.log(e)
-    /*yield put(getUserErrorAction(error))*/
+    yield call(getNetworkErrorResponse, e)
   }
 }
 
@@ -41,9 +40,11 @@ function* createTodoListSaga(action: CreateTodoType): SagaIterator {
 
     if (response.data.resultCode === 0) {
       yield put(todoListActions.createTodo(response.data.data.item))
+    } else {
+      yield call(getAppErrorResponse, response.data.messages[0])
     }
   } catch (e) {
-    console.log(e)
+    yield call(getNetworkErrorResponse, e)
   }
 }
 
@@ -59,9 +60,11 @@ function* updateTodoListSaga(action: UpdateTodoType): SagaIterator {
 
     if (response.data.resultCode === 0) {
       yield put(todoListActions.updateTodo(payload))
+    } else {
+      yield call(getAppErrorResponse, response.data.messages[0])
     }
   } catch (e) {
-    console.log(e)
+    yield call(getNetworkErrorResponse, e)
   }
 }
 
@@ -76,9 +79,11 @@ function* deleteTodoListSaga(action: DeleteTodoType): SagaIterator {
 
     if (response.data.resultCode === 0) {
       yield put(todoListActions.deleteTodo(payload.todolistId))
+    } else {
+      yield call(getAppErrorResponse, response.data.messages[0])
     }
   } catch (e) {
-    console.log(e)
+    yield call(getNetworkErrorResponse, e)
   }
 }
 

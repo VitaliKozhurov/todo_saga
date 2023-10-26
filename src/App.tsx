@@ -2,6 +2,8 @@ import { useEffect } from 'react'
 
 import { AddItem } from '@/components'
 import {
+  TodoList,
+  appActions,
   appErrorSelector,
   createTodoSagaAC,
   fetchTodosSagaAC,
@@ -10,7 +12,6 @@ import {
   useAppSelector,
 } from '@/features'
 import { Heading, useToast } from '@chakra-ui/react'
-import { TodoList } from '@features/todolists/ui'
 
 export const App = () => {
   const toast = useToast()
@@ -21,20 +22,24 @@ export const App = () => {
   useEffect(() => {
     dispatch(fetchTodosSagaAC())
   }, [])
+  useEffect(() => {
+    appError &&
+      toast({
+        description: appError,
+        duration: 5000,
+        isClosable: true,
+        onCloseComplete: () => dispatch(appActions.setErrorAppStatus({ error: null })),
+        position: 'top',
+        status: 'error',
+        title: 'Application Error',
+      })
+  }, [appError, dispatch, toast])
   const addNewTodoHandler = (title: string) => {
     dispatch(createTodoSagaAC({ title }))
   }
 
   return (
     <>
-      {appError &&
-        toast({
-          description: appError,
-          duration: 5000,
-          isClosable: true,
-          status: 'error',
-          title: 'Application Error',
-        })}
       <Heading mb={20} mt={5} textAlign={'center'}>
         Task Manager
       </Heading>

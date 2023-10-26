@@ -27,8 +27,6 @@ export const ModalWindow = ({ buttonIcon, buttonText, callback, modalTitle, valu
   const { isOpen, onClose, onOpen } = useDisclosure()
   const [title, setTitle] = useState(value)
   const [error, setError] = useState<null | string>(null)
-
-  console.log('render')
   const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     error && setError(null)
     setTitle(e.currentTarget.value)
