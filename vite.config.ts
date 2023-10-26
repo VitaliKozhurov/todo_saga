@@ -11,6 +11,7 @@ export default defineConfig({
       { find: '@common', replacement: path.resolve(__dirname, 'src/common') },
       { find: '@features', replacement: path.resolve(__dirname, 'src/features') },
       { find: '@components', replacement: path.resolve(__dirname, 'src/components') },
+      { find: '@pages', replacement: path.resolve(__dirname, 'src/pages') },
     ],
   },
   server: {

@@ -1,27 +1,14 @@
 import { useEffect } from 'react'
 
-import { AddItem } from '@/components'
-import {
-  TodoList,
-  appActions,
-  appErrorSelector,
-  createTodoSagaAC,
-  fetchTodosSagaAC,
-  todoListsSelector,
-  useAppDispatch,
-  useAppSelector,
-} from '@/features'
-import { Heading, useToast } from '@chakra-ui/react'
+import { appActions, appErrorSelector, useAppDispatch, useAppSelector } from '@/features'
+import { TodoPage } from '@/pages'
+import { useToast } from '@chakra-ui/react'
 
 export const App = () => {
   const toast = useToast()
   const appError = useAppSelector(appErrorSelector)
   const dispatch = useAppDispatch()
-  const todos = useAppSelector(todoListsSelector)
 
-  useEffect(() => {
-    dispatch(fetchTodosSagaAC())
-  }, [])
   useEffect(() => {
     appError &&
       toast({
@@ -34,23 +21,6 @@ export const App = () => {
         title: 'Application Error',
       })
   }, [appError, dispatch, toast])
-  const addNewTodoHandler = (title: string) => {
-    dispatch(createTodoSagaAC({ title }))
-  }
 
-  return (
-    <>
-      <Heading mb={20} mt={5} textAlign={'center'}>
-        Task Manager
-      </Heading>
-      <div style={{ margin: '0 auto 30px', width: '400px' }}>
-        <AddItem buttonTitle={'Add new todo'} callback={addNewTodoHandler} />
-      </div>
-      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
-        {todos.map(todo => (
-          <TodoList key={todo.id} {...todo} />
-        ))}
-      </div>
-    </>
-  )
+  return <TodoPage />
 }
