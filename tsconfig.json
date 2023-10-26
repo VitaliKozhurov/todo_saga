@@ -23,7 +23,8 @@
     "paths": {
       "@/*": ["./src/*"],
       "@common/*": ["./src/common/*"],
-      "@features/*": ["./src/features/*"]
+      "@features/*": ["./src/features/*"],
+      "@components/*": ["./src/components/*"],
     }
   },
   "include": ["src"],

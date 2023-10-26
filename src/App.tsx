@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { fetchTodosSagaAC, todoListsSelector, useAppDispatch, useAppSelector } from '@/features'
+import { Heading } from '@chakra-ui/react'
 import { TodoList } from '@features/todolists/ui'
 
 export const App = () => {
@@ -13,9 +14,14 @@ export const App = () => {
 
   return (
     <>
-      {todos.map(todo => (
-        <TodoList key={todo.id} title={todo.title} todolistId={todo.id} />
-      ))}
+      <Heading mb={20} mt={5} textAlign={'center'}>
+        Task Manager
+      </Heading>
+      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
+        {todos.map(todo => (
+          <TodoList key={todo.id} {...todo} />
+        ))}
+      </div>
     </>
   )
 }

@@ -1,7 +1,7 @@
 import { TodoListServerType } from '@/features'
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
-type TodoListType = {
+export type TodoListType = {
   entityStatus: 'idle' | 'loading'
   filter: FilterValueType
 } & TodoListServerType
