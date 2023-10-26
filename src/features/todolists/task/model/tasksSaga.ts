@@ -52,20 +52,28 @@ function* createTaskSaga(action: CreateTaskType): SagaIterator {
 }
 
 function* updateTaskSaga(action: UpdateTaskType): SagaIterator {
-  const { payload } = action
+  const {
+    payload: { task, taskUpdate },
+  } = action
 
   try {
-    const response: AxiosResponse<AppResponseType<TaskApiType>> = yield call(
-      TaskApi.updateTask,
-      payload
-    )
+    const { addedDate, id, order, todoListId, ...restTaskData } = task
+    const taskFoUpdate = {
+      ...restTaskData,
+      ...taskUpdate,
+    }
+    const response: AxiosResponse<AppResponseType<TaskApiType>> = yield call(TaskApi.updateTask, {
+      taskId: id,
+      taskUpdate: taskFoUpdate,
+      todolistId: todoListId,
+    })
 
     if (response.data.resultCode === 0) {
       yield put(
         tasksActions.updateTask({
-          taskId: payload.taskId,
-          todolistId: payload.todolistId,
-          updatedTaskModel: response.data.data,
+          taskId: id,
+          todolistId: todoListId,
+          updatedTaskModel: taskUpdate,
         })
       )
     }

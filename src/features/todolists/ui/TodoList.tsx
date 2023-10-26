@@ -1,5 +1,6 @@
 import { AddItem, ModalWindow } from '@/components'
 import {
+  Task,
   TodoListType,
   createTaskSagaAC,
   deleteTodoSagaAC,
@@ -48,8 +49,9 @@ export const TodoList = ({ id, title }: Props) => {
 
         <CardBody>
           <AddItem buttonTitle={'Add task'} callback={addTaskHandler} />
+
           {tasks.map(task => (
-            <h2 key={task.id}>{task.title}</h2>
+            <Task key={task.id} {...task} />
           ))}
         </CardBody>
 

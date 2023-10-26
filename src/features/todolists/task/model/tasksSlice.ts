@@ -101,9 +101,8 @@ export const createTaskSagaAC = (payload: { title: string; todolistId: string })
     type: CREATE_TASK,
   }) as const
 export const updateTaskSagaAC = (payload: {
-  taskId: string
-  taskUpdate: TaskUpdateType
-  todolistId: string
+  task: TaskApiType
+  taskUpdate: Partial<TaskUpdateType>
 }) =>
   ({
     payload,

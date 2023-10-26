@@ -29,7 +29,7 @@ export const AddItem = ({ buttonTitle, callback }: Props) => {
 
   return (
     <>
-      <div style={{ display: 'flex', gap: '5px' }}>
+      <div style={{ display: 'flex', gap: '5px', marginBottom: '10px' }}>
         <Input onChange={onChange} onKeyDown={onKeyPressHandler} value={value} />
         <Button colorScheme={'telegram'} onClick={addItemHandler}>
           {buttonTitle}
