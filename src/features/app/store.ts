@@ -2,6 +2,7 @@ import { tasksReducer, todoListReducer } from '@/features'
 import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 
+import { appReducer } from './model/appSlice'
 import { rootSaga } from './rootSaga'
 
 const sagaMiddleware = createSagaMiddleware()
@@ -9,6 +10,7 @@ const sagaMiddleware = createSagaMiddleware()
 export const store = configureStore({
   middleware: getDefaultMiddleware => [...getDefaultMiddleware({ thunk: false }), sagaMiddleware],
   reducer: {
+    app: appReducer,
     tasks: tasksReducer,
     todoList: todoListReducer,
   },

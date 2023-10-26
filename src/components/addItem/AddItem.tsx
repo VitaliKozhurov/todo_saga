@@ -17,6 +17,7 @@ export const AddItem = ({ buttonTitle, callback }: Props) => {
   }
   const addItemHandler = () => {
     callback(value)
+    setValue('')
   }
 
   const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {

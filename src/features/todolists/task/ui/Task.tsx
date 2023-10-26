@@ -2,17 +2,25 @@ import { ChangeEvent } from 'react'
 
 import { TaskStatuses } from '@/common'
 import { ModalWindow } from '@/components'
-import { TaskApiType, updateTaskSagaAC, useAppDispatch } from '@/features'
+import { TaskApiType, deleteTaskSagaAC, updateTaskSagaAC, useAppDispatch } from '@/features'
 import { DeleteIcon } from '@chakra-ui/icons'
 import { Button, Card, CardBody, Checkbox, Text } from '@chakra-ui/react'
 
 type Props = TaskApiType
 
 export const Task = (task: Props) => {
-  const { status, title } = task
+  const { id, status, title, todoListId } = task
   const dispatch = useAppDispatch()
   const removeTaskHandler = () => {
-    dispatch(rem)
+    dispatch(deleteTaskSagaAC({ taskId: id, todolistId: todoListId }))
+  }
+  const updateTaskTitle = (title: string) => {
+    dispatch(
+      updateTaskSagaAC({
+        task,
+        taskUpdate: { title },
+      })
+    )
   }
   const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.currentTarget.checked
@@ -41,8 +49,13 @@ export const Task = (task: Props) => {
         </Text>
         <div style={{ display: 'flex', gap: '5px' }}>
           <Checkbox isChecked={isChecked} onChange={changeTaskStatusHandler} size={'lg'} />
-          <ModalWindow buttonText={'Edit'} modalTitle={'Edit title'} />
-          <Button colorScheme={'red'} size={'lg'}>
+          <ModalWindow
+            buttonText={'Edit'}
+            callback={updateTaskTitle}
+            modalTitle={'Edit title'}
+            value={title}
+          />
+          <Button colorScheme={'red'} onClick={removeTaskHandler} size={'lg'}>
             <DeleteIcon />
           </Button>
         </div>
