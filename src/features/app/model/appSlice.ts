@@ -2,10 +2,12 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 
 type InitialStateType = {
   error: null | string
+  isInitialized: boolean
 }
 
 const initialState: InitialStateType = {
   error: null,
+  isInitialized: false,
 }
 
 const appSlice = createSlice({
@@ -14,6 +16,9 @@ const appSlice = createSlice({
   reducers: {
     setErrorAppStatus: (state, action: PayloadAction<{ error: null | string }>) => {
       state.error = action.payload.error
+    },
+    setInitializedAppStatus: (state, action: PayloadAction<{ isInitialized: boolean }>) => {
+      state.isInitialized = action.payload.isInitialized
     },
   },
 })

@@ -2,14 +2,25 @@ import { useEffect } from 'react'
 import { Outlet } from 'react-router-dom'
 
 import { Header } from '@/components'
-import { appActions, appErrorSelector, useAppDispatch, useAppSelector } from '@/features'
+import {
+  appActions,
+  appErrorSelector,
+  getInitializedStatus,
+  setAppInitializedStatusSagaAC,
+  useAppDispatch,
+  useAppSelector,
+} from '@/features'
 import { useToast } from '@chakra-ui/react'
 
 export const App = () => {
   const toast = useToast()
   const appError = useAppSelector(appErrorSelector)
+  const isInitialized = useAppSelector(getInitializedStatus)
   const dispatch = useAppDispatch()
 
+  useEffect(() => {
+    dispatch(setAppInitializedStatusSagaAC())
+  }, [])
   useEffect(() => {
     appError &&
       toast({
@@ -22,6 +33,9 @@ export const App = () => {
         title: 'Application Error',
       })
   }, [appError, dispatch, toast])
+  if (!isInitialized) {
+    return <h1>Loading......</h1>
+  }
 
   return (
     <>

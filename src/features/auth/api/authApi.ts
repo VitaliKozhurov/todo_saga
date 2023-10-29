@@ -22,7 +22,7 @@ export class AuthApi {
   }
 }
 
-type AuthMeResponse = {
+export type AuthMeResponse = {
   email: string
   id: number
   login: string
