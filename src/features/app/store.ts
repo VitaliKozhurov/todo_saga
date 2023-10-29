@@ -1,4 +1,5 @@
 import { tasksReducer, todoListReducer } from '@/features'
+import { authReducer } from '@features/auth/model'
 import { configureStore } from '@reduxjs/toolkit'
 import createSagaMiddleware from 'redux-saga'
 
@@ -11,6 +12,7 @@ export const store = configureStore({
   middleware: getDefaultMiddleware => [...getDefaultMiddleware({ thunk: false }), sagaMiddleware],
   reducer: {
     app: appReducer,
+    auth: authReducer,
     tasks: tasksReducer,
     todoList: todoListReducer,
   },

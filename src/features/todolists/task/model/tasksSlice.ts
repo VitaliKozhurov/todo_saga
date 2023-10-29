@@ -83,38 +83,3 @@ const tasksSlice = createSlice({
 
 export const tasksReducer = tasksSlice.reducer
 export const tasksActions = tasksSlice.actions
-const FETCH_TASKS = 'fetchTasks'
-const CREATE_TASK = 'createTask'
-const UPDATE_TASK = 'updateTask'
-const DELETE_TASK = 'deleteTask'
-
-export const tasksSagaActions = { CREATE_TASK, DELETE_TASK, FETCH_TASKS, UPDATE_TASK }
-export const fetchTasksSagaAC = (payload: { todolistId: string }) =>
-  ({
-    payload,
-    type: FETCH_TASKS,
-  }) as const
-
-export const createTaskSagaAC = (payload: { title: string; todolistId: string }) =>
-  ({
-    payload,
-    type: CREATE_TASK,
-  }) as const
-export const updateTaskSagaAC = (payload: {
-  task: TaskApiType
-  taskUpdate: Partial<TaskUpdateType>
-}) =>
-  ({
-    payload,
-    type: UPDATE_TASK,
-  }) as const
-export const deleteTaskSagaAC = (payload: { taskId: string; todolistId: string }) =>
-  ({
-    payload,
-    type: DELETE_TASK,
-  }) as const
-
-export type FetchTaskType = ReturnType<typeof fetchTasksSagaAC>
-export type CreateTaskType = ReturnType<typeof createTaskSagaAC>
-export type UpdateTaskType = ReturnType<typeof updateTaskSagaAC>
-export type DeleteTaskType = ReturnType<typeof deleteTaskSagaAC>

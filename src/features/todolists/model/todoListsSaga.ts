@@ -1,20 +1,46 @@
 import { AppResponseType, getAppErrorResponse, getNetworkErrorResponse } from '@/common'
 import {
-  CreateTodoType,
-  DeleteTodoType,
   TaskApiType,
   TodoListApi,
   TodoListServerType,
-  UpdateTodoType,
   fetchTasksSaga,
   fetchTasksSagaAC,
   todoListActions,
-  todoListsSagaActions,
 } from '@/features'
 import { AxiosResponse } from 'axios'
 import { SagaIterator } from 'redux-saga'
 import { call, put, takeEvery } from 'redux-saga/effects'
 
+const FETCH_TODOS = 'fetchTodos'
+const CREATE_TODO = 'createTodo'
+const UPDATE_TODO = 'updateTodo'
+const DELETE_TODO = 'deleteTodo'
+
+export const fetchTodosSagaAC = () =>
+  ({
+    type: FETCH_TODOS,
+  }) as const
+export const createTodoSagaAC = (payload: { title: string }) =>
+  ({
+    payload,
+    type: CREATE_TODO,
+  }) as const
+export const updateTodoSagaAC = (payload: { todolistId: string; updateData: { title: string } }) =>
+  ({
+    payload,
+    type: UPDATE_TODO,
+  }) as const
+export const deleteTodoSagaAC = (payload: { todolistId: string }) =>
+  ({
+    payload,
+    type: DELETE_TODO,
+  }) as const
+
+export const todoListsSagaActions = { CREATE_TODO, DELETE_TODO, FETCH_TODOS, UPDATE_TODO }
+
+export type CreateTodoType = ReturnType<typeof createTodoSagaAC>
+export type UpdateTodoType = ReturnType<typeof updateTodoSagaAC>
+export type DeleteTodoType = ReturnType<typeof deleteTodoSagaAC>
 function* fetchTodoListsSaga(): SagaIterator {
   try {
     const response: AxiosResponse<TodoListServerType[]> = yield call(TodoListApi.getTodoLists)
