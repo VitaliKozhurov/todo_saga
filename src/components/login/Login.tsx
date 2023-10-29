@@ -1,5 +1,15 @@
 import { CSSProperties } from 'react'
 import { useForm } from 'react-hook-form'
+import { Navigate } from 'react-router-dom'
+
+import {
+  LoginRequest,
+  getLoggedInStatus,
+  setAuthLoginStatusSagaAC,
+  useAppDispatch,
+  useAppSelector,
+} from '@/features'
+import { Button } from '@chakra-ui/react'
 
 const formStyle: CSSProperties = {
   margin: '0 auto',
@@ -13,6 +23,8 @@ const inputStyle: CSSProperties = {
 }
 
 export const Login = () => {
+  const dispatch = useAppDispatch()
+
   const { handleSubmit, register } = useForm({
     defaultValues: {
       email: '',
@@ -20,10 +32,13 @@ export const Login = () => {
       rememberMe: false,
     },
   })
-  const onSubmit = data => {}
+
+  const onSubmit = (data: LoginRequest) => {
+    dispatch(setAuthLoginStatusSagaAC(data))
+  }
 
   return (
-    <form style={formStyle}>
+    <form onSubmit={handleSubmit(onSubmit)} style={formStyle}>
       <h2 style={{ fontSize: '22px', marginBottom: '20px', textAlign: 'center' }}>Login</h2>
       <h3 style={{ fontSize: '18px', marginBottom: '5px' }}>Email:</h3>
       <input
@@ -39,6 +54,16 @@ export const Login = () => {
       />
       <h3 style={{ fontSize: '18px', marginBottom: '5px' }}>Remember me</h3>
       <input type={'checkbox'} {...register('rememberMe')} />
+
+      <Button
+        colorScheme={'green'}
+        display={'block'}
+        margin={'50px auto'}
+        type={'submit'}
+        w={'full'}
+      >
+        Login
+      </Button>
     </form>
   )
 }

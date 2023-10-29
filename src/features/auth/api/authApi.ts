@@ -2,12 +2,12 @@ import { AppResponseType, axiosInstance } from '@/common'
 import { AxiosResponse } from 'axios'
 
 export class AuthApi {
-  static login() {
+  static login(body: LoginRequest) {
     return axiosInstance.post<
       AppResponseType<LoginResponse>,
       AxiosResponse<AppResponseType<LoginResponse>>,
       LoginRequest
-    >('auth/login')
+    >('auth/login', body)
   }
 
   static logout() {
@@ -28,9 +28,9 @@ type AuthMeResponse = {
   login: string
 }
 
-type LoginResponse = { userId: number }
+export type LoginResponse = { userId: number }
 
-type LoginRequest = {
+export type LoginRequest = {
   captcha?: boolean
   email: string
   password: string

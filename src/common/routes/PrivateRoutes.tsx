@@ -1,7 +1,11 @@
 import { Navigate, Outlet } from 'react-router-dom'
 
-export const PrivateRoutes = () => {
-  const isAuth = false
+import { getLoggedInStatus, useAppSelector } from '@/features'
 
-  return isAuth ? <Outlet /> : <Navigate to={'login'} />
+export const PrivateRoutes = () => {
+  const isLoggedIn = useAppSelector(getLoggedInStatus)
+
+  debugger
+
+  return isLoggedIn ? <Outlet /> : <Navigate to={'login'} />
 }
