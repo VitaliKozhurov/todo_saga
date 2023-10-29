@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 
 import { AddItem } from '@/components'
 import {
+  TodoList,
   createTodoSagaAC,
   fetchTodosSagaAC,
   todoListsSelector,
@@ -29,9 +30,9 @@ export const TodoPage = () => {
       <div style={{ margin: '0 auto 30px', width: '400px' }}>
         <AddItem buttonTitle={'Add new todo'} callback={addNewTodoHandler} />
       </div>
-      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', justifyContent: 'center' }}>
         {todos.map(todo => (
-          <TodoPage key={todo.id} {...todo} />
+          <TodoList key={todo.id} {...todo} />
         ))}
       </div>
     </>

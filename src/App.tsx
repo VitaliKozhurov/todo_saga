@@ -1,7 +1,8 @@
 import { useEffect } from 'react'
+import { Outlet } from 'react-router-dom'
 
+import { Header } from '@/components'
 import { appActions, appErrorSelector, useAppDispatch, useAppSelector } from '@/features'
-import { TodoPage } from '@/pages'
 import { useToast } from '@chakra-ui/react'
 
 export const App = () => {
@@ -22,5 +23,10 @@ export const App = () => {
       })
   }, [appError, dispatch, toast])
 
-  return <TodoPage />
+  return (
+    <>
+      <Header />
+      <Outlet />
+    </>
+  )
 }

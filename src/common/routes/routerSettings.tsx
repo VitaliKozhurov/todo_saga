@@ -7,4 +7,4 @@ export const privateRoutes: RouteObject[] = [
   { element: <TodoPage />, path: '/todo' },
 ]
 
-export const publicRoutes: RouteObject[] = [{ element: <h1>Login</h1>, path: 'login' }]
+export const publicRoutes: RouteObject[] = [{ element: <h1>Login</h1>, path: '/login' }]
