@@ -1,5 +1,6 @@
 import { Navigate, RouteObject } from 'react-router-dom'
 
+import { Login } from '@/components'
 import { TodoPage } from '@/pages'
 
 export const privateRoutes: RouteObject[] = [
@@ -7,4 +8,4 @@ export const privateRoutes: RouteObject[] = [
   { element: <TodoPage />, path: '/todo' },
 ]
 
-export const publicRoutes: RouteObject[] = [{ element: <h1>Login</h1>, path: '/login' }]
+export const publicRoutes: RouteObject[] = [{ element: <Login />, path: '/login' }]
